@@ -1,9 +1,13 @@
 package main
 
 import (
-  "fmt"
+	"fmt"
+
+	op "filestore/internal/apiserver/options"
 )
 
 func main() {
-  fmt.Println("start")
+	a := op.NewOptions()
+	fmt.Println(a.MySQLOptions)
+	fmt.Println(a.MySQLOptions.NewClient())
 }

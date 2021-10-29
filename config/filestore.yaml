@@ -1,0 +1,24 @@
+# MySQL configuration
+MySQL:
+  Host: 127.0.0.1:3306
+  Username: root
+  Password: liqh930215
+  Database: filestore
+  MaxIdleConnections: 100
+  MaxOpenConnections: 100
+  MaxConnectionLifeTime: 20
+# Redis configuration
+Redis:
+  Host: 127.0.0.1
+  Port: 6379
+  Addrs: ""
+  Username: root
+  Password: LiQuanHui930215
+  Database: 0
+  MasterName: filestore
+  MaxIdle: 2000
+  MaxActive: 4000
+  Timeout: 0
+  EnableCluster: false
+  UseSSL: false
+  SSLInsecureSkipVerify: false

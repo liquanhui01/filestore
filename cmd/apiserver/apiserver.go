@@ -6,10 +6,14 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"os"
 	"runtime"
 	"time"
+
+	co "filestore/internal/apiserver/config"
+	op "filestore/internal/apiserver/options"
 )
 
 func main() {
@@ -17,4 +21,9 @@ func main() {
 	if len(os.Getenv("GOMAXPROCS")) == 0 {
 		runtime.GOMAXPROCS(runtime.NumCPU())
 	}
+
+	// Initlizing config file.
+	co.Init()
+
+	fmt.Println(op.NewOptions().RedisOptions.NewClient().Dial())
 }
