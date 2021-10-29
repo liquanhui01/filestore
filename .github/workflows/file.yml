@@ -1,0 +1,51 @@
+name: filestore
+
+on: [push, pull_request]
+
+jobs:
+
+  filestoreci-build:
+    name: Test with go ${{ matrix.go_version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    environment:
+      name: filestoreci
+
+    strategy:
+      matrix:
+        go_version: [1.16]
+        os: [ubuntu-latest]
+
+    steps:
+
+      - name: Set up Go ${{ matrix.go_version }}
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go_version }}
+        id: go
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: Tidy
+        run: |
+          go mod tidy
+
+      - name: Build
+        run: |
+          go build -v -o filestoreci .
+
+      - name: Collect main.go file
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: main-output
+          path: main.go
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-GitHub-Action@master
+        with:
+          name: ccr.ccs.tencentyun.com/marmotedu/helloci:beta  # docker image 的名字
+          username: ${{ secrets.FILE_USERNAME}} # 用户名
+          password: ${{ secrets.FILE_PASSWORD }} # 密码
+          #registry: ccr.ccs.tencentyun.com # 腾讯云Registry
+          #dockerfile: Dockerfile # 指定 Dockerfile 的位置
+          #tag_names: true # 是否将 release 的 tag 作为 docker image 的 tag
