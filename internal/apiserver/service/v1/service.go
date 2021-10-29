@@ -5,7 +5,7 @@
 package v1
 
 import (
-	"file-store/internal/store"
+	"filestore/internal/apiserver/store"
 )
 
 type Service interface {

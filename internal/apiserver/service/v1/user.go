@@ -7,8 +7,8 @@ package v1
 import (
 	"context"
 
-	"file-store/internal/store"
-	rp "file-store/internal/store/repo"
+	"filestore/internal/apiserver/store"
+	rp "filestore/internal/apiserver/store/repo"
 )
 
 // UserSrv defines functions used to handle user request.

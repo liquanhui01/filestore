@@ -12,8 +12,8 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/suite"
 
-	"file-store/internal/store"
-	rp "file-store/internal/store/repo"
+	"filestore/internal/apiserver/store"
+	rp "filestore/internal/apiserver/store/repo"
 )
 
 type Suite struct {

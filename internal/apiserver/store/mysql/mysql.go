@@ -3,7 +3,7 @@ package mysql
 import (
 	"gorm.io/gorm"
 
-	"file-store/internal/store"
+	"filestore/internal/apiserver/store"
 )
 
 type datastore struct {

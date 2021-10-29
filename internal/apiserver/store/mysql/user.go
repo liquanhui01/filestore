@@ -5,7 +5,7 @@ import (
 
 	"gorm.io/gorm"
 
-	rp "file-store/internal/store/repo"
+	rp "filestore/internal/apiserver/store/repo"
 )
 
 type users struct {

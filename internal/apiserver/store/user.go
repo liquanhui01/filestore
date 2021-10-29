@@ -7,7 +7,7 @@ package store
 import (
 	"context"
 
-	rp "file-store/internal/store/repo"
+	rp "filestore/internal/apiserver/store/repo"
 )
 
 type UserStore interface {

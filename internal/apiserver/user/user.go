@@ -5,8 +5,8 @@
 package user
 
 import (
-	srvv1 "file-store/internal/service/v1"
-	"file-store/internal/store"
+	srvv1 "filestore/internal/apiserver/service/v1"
+	"filestore/internal/apiserver/store"
 )
 
 // UserController create a user handler used to handler request for user resource.
