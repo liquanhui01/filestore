@@ -1,0 +1,16 @@
+mode: set
+file-store/internal/service/v1/mock_service.go:25.59,29.2 3 0
+file-store/internal/service/v1/mock_service.go:32.57,34.2 1 0
+file-store/internal/service/v1/mock_service.go:37.39,42.2 4 0
+file-store/internal/service/v1/mock_service.go:45.57,48.2 2 0
+file-store/internal/service/v1/service.go:20.46,24.2 1 0
+file-store/internal/service/v1/service.go:26.35,28.2 1 0
+file-store/internal/service/v1/user.go:28.42,30.2 1 1
+file-store/internal/service/v1/user.go:32.80,34.16 2 0
+file-store/internal/service/v1/user.go:38.2,38.16 1 0
+file-store/internal/service/v1/user.go:34.16,36.3 1 0
+file-store/internal/service/v1/user.go:41.66,43.2 1 0
+file-store/internal/service/v1/user.go:45.72,47.2 1 0
+file-store/internal/service/v1/user.go:49.85,51.16 2 0
+file-store/internal/service/v1/user.go:54.2,54.18 1 0
+file-store/internal/service/v1/user.go:51.16,53.3 1 0
