@@ -40,12 +40,12 @@ jobs:
           name: main-output
           path: main.go
 
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-GitHub-Action@master
-        with:
-          name: ccr.ccs.tencentyun.com/marmotedu/helloci:beta  # docker image 的名字
-          username: ${{ secrets.FILE_USERNAME}} # 用户名
-          password: ${{ secrets.FILE_PASSWORD }} # 密码
+          #  - name: Publish to Registry
+          #    uses: elgohr/Publish-Docker-GitHub-Action@master
+          #    with:
+          #      name: ccr.ccs.tencentyun.com/marmotedu/helloci:beta  # docker image 的名字
+          #      username: ${{ secrets.FILE_USERNAME}} # 用户名
+          #      password: ${{ secrets.FILE_PASSWORD }} # 密码
           #registry: ccr.ccs.tencentyun.com # 腾讯云Registry
           #dockerfile: Dockerfile # 指定 Dockerfile 的位置
           #tag_names: true # 是否将 release 的 tag 作为 docker image 的 tag
