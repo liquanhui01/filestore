@@ -1,0 +1,29 @@
+{
+  "name": "file-store",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "core-js": "^3.6.5",
+    "element-plus": "^1.0.2-beta.70",
+    "js-sha1": "^0.6.0",
+    "qs": "^6.5.2",
+    "sha1": "^1.1.1",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.0-0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.13",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "naive-ui": "^2.16.6",
+    "vfonts": "^0.1.0"
+  }
+}
