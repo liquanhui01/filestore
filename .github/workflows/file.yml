@@ -52,8 +52,8 @@ jobs:
           #dockerfile: Dockerfile # 指定 Dockerfile 的位置
           #tag_names: true # 是否将 release 的 tag 作为 docker image 的 tag
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.FILE_USERNAME }}
-          password: ${{ secrets.FILE_PASSWORD }}
+      # - name: Login to DockerHub
+      #   uses: docker/login-action@v1
+      #   with:
+      #     username: ${{ secrets.FILE_USERNAME }}
+      #     password: ${{ secrets.FILE_PASSWORD }}
