@@ -30,13 +30,17 @@ jobs:
 
       - name: Build
         run: |
-          cd cmd/apiserver && go build
+          go build -v ./...
 
-      - name: Collect main.go file
+      - name: Test
+        run: |
+          go test -v ./...
+
+      - name: Collect apiserver.go file
         uses: actions/upload-artifact@v1.0.0
         with:
           name: main-output
-          path: apiserver.go
+          path: cmd/apiserver/apiserver.go
 
           #  - name: Publish to Registry
           #    uses: elgohr/Publish-Docker-GitHub-Action@master
