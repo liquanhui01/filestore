@@ -5,7 +5,6 @@
 package config
 
 import (
-	"fmt"
 	"log"
 	"sync"
 
@@ -40,6 +39,5 @@ func init() {
 		if err := viper.ReadInConfig(); err != nil {
 			log.Fatal("failed to initlize configuration.")
 		}
-		fmt.Println(viper.AllKeys())
 	})
 }

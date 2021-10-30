@@ -6,16 +6,13 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 	"os"
 	"runtime"
 	"time"
 
-	"github.com/spf13/viper"
-
+	"filestore/internal/apiserver"
 	_ "filestore/internal/apiserver/config"
-	op "filestore/internal/apiserver/options"
 )
 
 func main() {
@@ -24,6 +21,6 @@ func main() {
 		runtime.GOMAXPROCS(runtime.NumCPU())
 	}
 
-	fmt.Println(viper.GetInt("redis.maxactive"))
-	fmt.Println(op.NewOptions().RedisOptions.NewClient().Dial())
+	// start the server
+	apiserver.NewApp()
 }
