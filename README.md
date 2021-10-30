@@ -12,6 +12,7 @@ filestore是一个基于Go语言和Gin框架开发的文件传输和存储系统
     - Gorm框架
     - Redis
     - RabbitMq实现异步上传文件
+    - 数据库：MySQL5.7
 2. 客户端：
     - Vue
     - elementui-plus框架
