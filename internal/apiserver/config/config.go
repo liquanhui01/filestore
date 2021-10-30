@@ -5,6 +5,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 	"sync"
 
@@ -17,7 +18,7 @@ var (
 	help = pflag.BoolP("help", "h", false, "Show this help message.")
 )
 
-func Init() {
+func init() {
 	var once sync.Once
 	once.Do(func() {
 		pflag.Parse()
@@ -39,5 +40,6 @@ func Init() {
 		if err := viper.ReadInConfig(); err != nil {
 			log.Fatal("failed to initlize configuration.")
 		}
+		fmt.Println(viper.AllKeys())
 	})
 }

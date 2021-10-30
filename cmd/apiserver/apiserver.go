@@ -12,7 +12,9 @@ import (
 	"runtime"
 	"time"
 
-	co "filestore/internal/apiserver/config"
+	"github.com/spf13/viper"
+
+	_ "filestore/internal/apiserver/config"
 	op "filestore/internal/apiserver/options"
 )
 
@@ -22,8 +24,6 @@ func main() {
 		runtime.GOMAXPROCS(runtime.NumCPU())
 	}
 
-	// Initlizing config file.
-	co.Init()
-
+	fmt.Println(viper.GetInt("redis.maxactive"))
 	fmt.Println(op.NewOptions().RedisOptions.NewClient().Dial())
 }

@@ -33,7 +33,6 @@ type RedisOptions struct {
 
 // NewRedisPool create the poll for redis connection.
 func newRedisPool(opts *RedisOptions) *redis.Pool {
-	fmt.Printf("maxActive:%d\n", opts.Port)
 	address := opts.Host + ":" + strconv.Itoa(opts.Port)
 	return &redis.Pool{
 		MaxIdle:     opts.MaxIdle,

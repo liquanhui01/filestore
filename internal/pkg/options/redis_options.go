@@ -20,13 +20,13 @@ type RedisOptions struct {
 	Username              string   `json:"username"`
 	Password              string   `json:"password"`
 	Database              int      `json:"database"`
-	MasterName            string   `json:"master-name"`
-	MaxIdle               int      `json:"max_idle"`
-	MaxActive             int      `json:"max_active"`
+	MasterName            string   `json:"mastername"`
+	MaxIdle               int      `json:"maxidle"`
+	MaxActive             int      `json:"maxactive"`
 	Timeout               int      `json:"timeout"`
-	EnableCluster         bool     `json:"enable_cluster"`
-	UseSSL                bool     `json:"use_ssl"`
-	SSLInsecureSkipVerify bool     `json:"ssl_insecure_skip_verify"`
+	EnableCluster         bool     `json:"enablecluster"`
+	UseSSL                bool     `json:"usessl"`
+	SSLInsecureSkipVerify bool     `json:"sslinsecureskipverify"`
 }
 
 // NewRedisOptions create a `zero` value instance.
@@ -51,13 +51,13 @@ func NewRedisOptions() *RedisOptions {
 		Username:              viper.GetString("redis.username"),
 		Password:              viper.GetString("redis.password"),
 		Database:              viper.GetInt("redis.database"),
-		MasterName:            viper.GetString("redis.master_name"),
-		MaxIdle:               viper.GetInt("redis.max_idle"),
-		MaxActive:             viper.GetInt("redis.max_active"),
+		MasterName:            viper.GetString("redis.mastername"),
+		MaxIdle:               viper.GetInt("redis.maxidle"),
+		MaxActive:             viper.GetInt("redis.maxactive"),
 		Timeout:               viper.GetInt("redis.timeout"),
-		EnableCluster:         viper.GetBool("redis.enable_cluster"),
-		UseSSL:                viper.GetBool("redis.use_ssl"),
-		SSLInsecureSkipVerify: viper.GetBool("redis.ssl_insecure_skip_verify"),
+		EnableCluster:         viper.GetBool("redis.enablecluster"),
+		UseSSL:                viper.GetBool("redis.usessl"),
+		SSLInsecureSkipVerify: viper.GetBool("redis.sslinsecureskipverify"),
 	}
 }
 
@@ -80,27 +80,27 @@ func (o *RedisOptions) AddFlags(fs *pflag.FlagSet) {
 		"By default, the database is 0. Setting the database is not supported with redis cluster. "+
 		"As such, if you have --redis.enable-cluster=true, then this value should be omitted or explicitly set to 0.")
 
-	fs.StringVar(&o.MasterName, "redis.master-name", o.MasterName, "The name of master redis instance.")
+	fs.StringVar(&o.MasterName, "redis.mastername", o.MasterName, "The name of master redis instance.")
 
-	fs.IntVar(&o.MaxIdle, "redis.optimisation-max-idle", o.MaxIdle, ""+
+	fs.IntVar(&o.MaxIdle, "redis.maxidle", o.MaxIdle, ""+
 		"This setting will configure how many connections are maintained in the pool when idle (no traffic). "+
 		"Set the --redis.optimisation-max-active to something large, we usually leave it at around 2000 for "+
 		"HA deployments.")
 
-	fs.IntVar(&o.MaxActive, "redis.optimisation-max-active", o.MaxActive, ""+
+	fs.IntVar(&o.MaxActive, "redis.maxactive", o.MaxActive, ""+
 		"In order to not over commit connections to the Redis server, we may limit the total "+
 		"number of active connections to Redis. We recommend for production use to set this to around 4000.")
 
 	fs.IntVar(&o.Timeout, "redis.timeout", o.Timeout, "Timeout (in seconds) when connecting to redis service.")
 
-	fs.BoolVar(&o.EnableCluster, "redis.enable-cluster", o.EnableCluster, ""+
+	fs.BoolVar(&o.EnableCluster, "redis.enablecluster", o.EnableCluster, ""+
 		"If you are using Redis cluster, enable it here to enable the slots mode.")
 
-	fs.BoolVar(&o.UseSSL, "redis.use-ssl", o.UseSSL, ""+
+	fs.BoolVar(&o.UseSSL, "redis.usessl", o.UseSSL, ""+
 		"If set, IAM will assume the connection to Redis is encrypted. "+
 		"(use with Redis providers that support in-transit encryption).")
 
-	fs.BoolVar(&o.SSLInsecureSkipVerify, "redis.ssl-insecure-skip-verify", o.SSLInsecureSkipVerify, ""+
+	fs.BoolVar(&o.SSLInsecureSkipVerify, "redis.sslinsecureskipverify", o.SSLInsecureSkipVerify, ""+
 		"Allows usage of self-signed certificates when connecting to an encrypted Redis database.")
 }
 

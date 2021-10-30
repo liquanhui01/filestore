@@ -20,9 +20,9 @@ type MySQLOptions struct {
 	Username              string        `json:"username,omitempty"`
 	Password              string        `json:"-"`
 	Database              string        `json:"database"`
-	MaxIdleConnections    int           `json:"max-idle-connections,omitempty"`
-	MaxOpenConnections    int           `json:"max-open-connections,omitempty"`
-	MaxConnectionLifeTime time.Duration `json:"max-connection-life-time,omitempty"`
+	MaxIdleConnections    int           `json:"maxidleconnections,omitempty"`
+	MaxOpenConnections    int           `json:"maxopenconnections,omitempty"`
+	MaxConnectionLifeTime time.Duration `json:"maxconnectionlifetime,omitempty"`
 }
 
 // NewMySQLOptions create a `zero` value instance.
@@ -39,9 +39,9 @@ func NewMySQLOptions() *MySQLOptions {
 		Username:              viper.GetString("mysql.username"),
 		Password:              viper.GetString("mysql.password"),
 		Database:              viper.GetString("mysql.database"),
-		MaxIdleConnections:    viper.GetInt("mysql.max_idle_connections"),
-		MaxOpenConnections:    viper.GetInt("mysql.max_open_connections"),
-		MaxConnectionLifeTime: time.Duration(viper.GetDuration("mysql.max_connection_life_time")) * time.Second,
+		MaxIdleConnections:    viper.GetInt("mysql.maxidleconnections"),
+		MaxOpenConnections:    viper.GetInt("mysql.maxopenconnections"),
+		MaxConnectionLifeTime: time.Duration(viper.GetDuration("mysql.maxconnectionlifetime")) * time.Second,
 	}
 }
 
@@ -66,13 +66,13 @@ func (o *MySQLOptions) AddFlags(fs *pflag.FlagSet) {
 	fs.StringVar(&o.Database, "mysql.database", o.Database, ""+
 		"Database name for the server to use.")
 
-	fs.IntVar(&o.MaxIdleConnections, "mysql.max-idle-connections", o.MaxOpenConnections, ""+
+	fs.IntVar(&o.MaxIdleConnections, "mysql.maxidleconnections", o.MaxOpenConnections, ""+
 		"Maximum idle connections allowed to connect to mysql.")
 
-	fs.IntVar(&o.MaxOpenConnections, "mysql.max-open-connections", o.MaxOpenConnections, ""+
+	fs.IntVar(&o.MaxOpenConnections, "mysql.maxopenconnections", o.MaxOpenConnections, ""+
 		"Maximum open connections allowed to connect to mysql.")
 
-	fs.DurationVar(&o.MaxConnectionLifeTime, "mysql.max-connection-life-time", o.MaxConnectionLifeTime, ""+
+	fs.DurationVar(&o.MaxConnectionLifeTime, "mysql.maxconnectionlifetime", o.MaxConnectionLifeTime, ""+
 		"Maximum connection life time allowed to connecto to mysql.")
 }
 
