@@ -5,19 +5,25 @@
 package apiserver
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
+
+	user "filestore/internal/apiserver/controller/user"
+	"filestore/internal/apiserver/store/mysql"
 )
 
 func initRouter() *gin.Engine {
 	r := gin.New()
 
+	dbIns, _ := mysql.GetMySQLFactoryOr(nil)
 	apiv1 := r.Group("/api/v1")
 	{
-		apiv1.GET("", func(c *gin.Context) {
-			fmt.Println("成功")
-		})
+		// user restful resource
+		userv1 := apiv1.Group("/user")
+		{
+			userController := user.NewUserController(dbIns)
+
+			userv1.POST("", userController.Create)
+		}
 	}
 
 	return r

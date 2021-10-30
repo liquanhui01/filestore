@@ -1,8 +1,8 @@
 # MySQL configuration
 MySQL:
   Host: 127.0.0.1:3306
-  Username: root
-  Password: ""
+  Username: file
+  Password: filestore
   Database: filestore
   MaxIdleConnections: 100
   MaxOpenConnections: 100
@@ -22,3 +22,10 @@ Redis:
   EnableCluster: false
   UseSSL: false
   SSLInsecureSkipVerify: false
+# Gin configuration
+Gin:
+  Mode: debug
+
+# Server configuration
+Server:
+  Host: 127.0.0.1:8080
