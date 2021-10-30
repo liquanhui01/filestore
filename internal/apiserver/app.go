@@ -45,4 +45,13 @@ func NewApp() {
 		log.Fatalf("Server shutdown:%s\n", err)
 	}
 	log.Fatalf("Server exiting")
+
+	// opts := options.NewOptions()
+	// cfg, err := config.CreateConfigFromOptions(opts)
+	// if err != nil {
+	// 	return err
+	// }
+	// fmt.Println(cfg)
+
+	// return nil
 }

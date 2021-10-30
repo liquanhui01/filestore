@@ -4,40 +4,14 @@
 
 package config
 
-import (
-	"log"
-	"sync"
+import "filestore/internal/apiserver/options"
 
-	"github.com/spf13/pflag"
-	"github.com/spf13/viper"
-)
+type Config struct {
+	*options.Options
+}
 
-var (
-	cfg  = pflag.StringP("conf", "c", "", "configuration file.")
-	help = pflag.BoolP("help", "h", false, "Show this help message.")
-)
-
-func init() {
-	var once sync.Once
-	once.Do(func() {
-		pflag.Parse()
-		if *help {
-			pflag.Usage()
-		}
-
-		// Read configuration from file.
-		if *cfg != "" {
-			viper.SetConfigFile(*cfg)
-			viper.SetConfigType("yaml")
-		} else {
-			viper.AddConfigPath(".")
-			viper.AddConfigPath("$HOME/workspace/filestore/config")
-			viper.SetConfigName("filestore")
-			viper.SetConfigType("yaml")
-		}
-
-		if err := viper.ReadInConfig(); err != nil {
-			log.Fatal("failed to initlize configuration.")
-		}
-	})
+// CreateConfigFromOptions creates a running configuration instance based
+// on a given filestore command line or configuration file option.
+func CreateConfigFromOptions(opts *options.Options) (*Config, error) {
+	return &Config{opts}, nil
 }
