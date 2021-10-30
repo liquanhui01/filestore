@@ -8,6 +8,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/marmotedu/log"
+	"github.com/spf13/viper"
 )
 
 // InsecureServingInfo holds configuration of the insecure http server.
@@ -52,7 +54,7 @@ type Config struct {
 	EnableMetrics   bool
 }
 
-func newConfig() *Config {
+func NewConfig() *Config {
 	return &Config{
 		Healthz:         true,
 		Mode:            gin.ReleaseMode,
@@ -80,4 +82,24 @@ func (c *Config) New() (*GenericAPIServer, error) {
 	initGenericAPIServer(s)
 
 	return s, nil
+}
+
+// LoadConfig reads in config file and ENV variables if set.
+func LoadConfig(cfg string, defaultName string) {
+	if cfg != "" {
+		viper.SetConfigFile(cfg)
+	} else {
+		viper.AddConfigPath("$HOME/workspace/filestore/config")
+		viper.AddConfigPath(".")
+		viper.SetConfigName("filestore")
+	}
+
+	// Use config file from the flag.
+	viper.SetConfigType("yaml")
+	viper.AutomaticEnv()
+
+	// If a config file is found, read it in.
+	if err := viper.ReadInConfig(); err != nil {
+		log.Warnf("WARNING: viper failed to discover and load the configuration file: %s", err.Error())
+	}
 }
