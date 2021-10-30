@@ -2,7 +2,7 @@
 MySQL:
   Host: 127.0.0.1:3306
   Username: root
-  Password: liqh930215
+  Password: ""
   Database: filestore
   MaxIdleConnections: 100
   MaxOpenConnections: 100
@@ -13,7 +13,7 @@ Redis:
   Port: 6379
   Addrs: ""
   Username: root
-  Password: LiQuanHui930215
+  Password: ""
   Database: 0
   MasterName: filestore
   MaxIdle: 2000
