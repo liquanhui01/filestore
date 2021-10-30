@@ -30,7 +30,7 @@ jobs:
 
       - name: Build
         run: |
-          go build cmd/apiserver/apiserver.go
+          go build -v github.com/liquanhui01/filestore/cmd/apiserver
 
       - name: Collect main.go file
         uses: actions/upload-artifact@v1.0.0
