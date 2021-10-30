@@ -3,7 +3,6 @@ name: filestore
 on: [push, pull_request]
 
 jobs:
-
   filestoreci-build:
     name: Test with go ${{ matrix.go_version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -16,7 +15,6 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-
       - name: Set up Go ${{ matrix.go_version }}
         uses: actions/setup-go@v2
         with:
@@ -38,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v1.0.0
         with:
           name: main-output
-          path: main.go
+          path: apiserver.go
 
           #  - name: Publish to Registry
           #    uses: elgohr/Publish-Docker-GitHub-Action@master
