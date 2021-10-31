@@ -17,22 +17,34 @@ import (
 func (u *UserController) Create(c *gin.Context) {
 	fmt.Println("user create function called.")
 
-	var r rp.User
+	// var r rp.User
 
-	if err := c.ShouldBindJSON(&r); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"msg":  "服务器内部错误",
-			"data": nil,
-		})
-		return
+	// if err := c.ShouldBindJSON(&r); err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"msg":  "序列化：服务器内部错误",
+	// 		"data": err,
+	// 	})
+	// 	return
+	// }
+
+	// username, _ := c.Params.Get("user_name")
+	// password, _ := c.Params.Get("password")
+	r := rp.User{
+		Username: "liquanhui",
+		Password: "liqh930215",
+		Email:    "695762725@qq.com",
+		Phone:    "17801198956",
+		Avatar:   "https://skldfjdslfjdslf.com",
+		Profile:  "dfskfhdskfhdsk",
+		Status:   0,
 	}
 
 	// Insert the user to mysql.
 	id, err := u.srv.Users().Create(c, &r)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"msg":  "服务器内部错误",
-			"data": nil,
+			"msg":  "数据库操作：服务器内部错误",
+			"data": err.Error(),
 		})
 		return
 	}

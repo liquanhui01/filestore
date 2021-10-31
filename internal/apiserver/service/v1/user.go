@@ -6,6 +6,7 @@ package v1
 
 import (
 	"context"
+	"fmt"
 
 	"filestore/internal/apiserver/store"
 	rp "filestore/internal/apiserver/store/repo"
@@ -30,8 +31,10 @@ func newUsers(srv *service) *userService {
 }
 
 func (u *userService) Create(ctx context.Context, user *rp.User) (uint, error) {
+	fmt.Printf("Phone is:%s\n", user.Phone)
 	id, err := u.store.Users().Create(ctx, user)
 	if err != nil {
+		fmt.Printf("err is:%s\n", err.Error())
 		return 0, err
 	}
 
