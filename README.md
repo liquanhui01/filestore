@@ -15,3 +15,6 @@ filestore是一个基于Go语言和Gin框架开发的文件传输和存储系统
 2. 客户端：
     - Vue
     - elementui-plus框架
+
+
+![登陆页面](/Users/apple/Desktop/截屏2021-10-30 18.42.17.png)
