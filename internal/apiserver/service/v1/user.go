@@ -8,8 +8,8 @@ import (
 	"context"
 	"fmt"
 
-	"filestore/internal/apiserver/store"
-	rp "filestore/internal/apiserver/store/repo"
+	"github.com/liquanhui01/filestore/internal/apiserver/store"
+	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
 )
 
 // UserSrv defines functions used to handle user request.

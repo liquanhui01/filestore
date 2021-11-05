@@ -26,5 +26,6 @@ func defaultMiddlewares() map[string]gin.HandlerFunc {
 		"recovery":  gin.Recovery(),
 		"secret":    Secure,
 		"requestid": RequestID(),
+		"logger":    Logger(),
 	}
 }

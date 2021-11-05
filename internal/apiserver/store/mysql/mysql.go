@@ -7,10 +7,10 @@ import (
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 
-	"filestore/internal/apiserver/store"
-	rp "filestore/internal/apiserver/store/repo"
-	genericoptions "filestore/internal/pkg/options"
-	"filestore/pkg/db"
+	"github.com/liquanhui01/filestore/internal/apiserver/store"
+	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
+	genericoptions "github.com/liquanhui01/filestore/internal/pkg/options"
+	"github.com/liquanhui01/filestore/pkg/db"
 )
 
 type datastore struct {

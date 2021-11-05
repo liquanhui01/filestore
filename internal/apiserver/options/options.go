@@ -6,7 +6,7 @@
 package options
 
 import (
-	genericoptions "filestore/internal/pkg/options"
+	genericoptions "github.com/liquanhui01/filestore/internal/pkg/options"
 )
 
 type Options struct {

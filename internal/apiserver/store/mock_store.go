@@ -10,7 +10,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 
-	repo "filestore/internal/apiserver/store/repo"
+	repo "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
 )
 
 // MockFactory is a mock of Factory interface.

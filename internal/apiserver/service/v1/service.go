@@ -5,7 +5,7 @@
 package v1
 
 import (
-	"filestore/internal/apiserver/store"
+	"github.com/liquanhui01/filestore/internal/apiserver/store"
 )
 
 type Service interface {

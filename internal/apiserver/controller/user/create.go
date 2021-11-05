@@ -9,8 +9,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-
-	rp "filestore/internal/apiserver/store/repo"
+	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
 )
 
 // Create add a new user to mysql.

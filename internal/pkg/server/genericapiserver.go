@@ -16,7 +16,7 @@ import (
 	"github.com/marmotedu/log"
 	"golang.org/x/sync/errgroup"
 
-	"filestore/internal/pkg/middleware"
+	"github.com/liquanhui01/filestore/internal/pkg/middleware"
 )
 
 type GenericAPIServer struct {

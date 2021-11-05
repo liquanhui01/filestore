@@ -14,23 +14,31 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"golang.org/x/sync/errgroup"
 )
 
 func NewApp() {
 
 	gin.SetMode(viper.GetString("gin.mode"))
 
-	router := initRouter()
+	addr := viper.GetString("server.host")
+	router := InitRouter()
 	srv := &http.Server{
-		Addr:    viper.GetString("server.host"),
+		Addr:    addr,
 		Handler: router,
 	}
 
-	go func() {
+	var eg errgroup.Group
+	eg.Go(func() error {
+		// log.Info("Starting to listening the incoming requests on http address: %s", addr)
+
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("failed to run serve")
+			return err
 		}
-	}()
+
+		return nil
+	})
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
@@ -44,14 +52,10 @@ func NewApp() {
 	if err := srv.Shutdown(ctx); err != nil {
 		log.Fatalf("Server shutdown:%s\n", err)
 	}
+
+	if err := eg.Wait(); err != nil {
+		log.Fatalf(err.Error())
+	}
+
 	log.Fatalf("Server exiting")
-
-	// opts := options.NewOptions()
-	// cfg, err := config.CreateConfigFromOptions(opts)
-	// if err != nil {
-	// 	return err
-	// }
-	// fmt.Println(cfg)
-
-	// return nil
 }

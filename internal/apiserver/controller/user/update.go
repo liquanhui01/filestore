@@ -10,7 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	rp "filestore/internal/apiserver/store/repo"
+	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
 )
 
 // Update updates an user.

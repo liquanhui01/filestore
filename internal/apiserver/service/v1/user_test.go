@@ -9,11 +9,11 @@ import (
 	"reflect"
 	"testing"
 
-	gomock "github.com/golang/mock/gomock"
-	"github.com/stretchr/testify/suite"
+	"github.com/liquanhui01/filestore/internal/apiserver/store"
 
-	"filestore/internal/apiserver/store"
-	rp "filestore/internal/apiserver/store/repo"
+	gomock "github.com/golang/mock/gomock"
+	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
+	"github.com/stretchr/testify/suite"
 )
 
 type Suite struct {

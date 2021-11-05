@@ -7,11 +7,11 @@ package apiserver
 import (
 	"github.com/gin-gonic/gin"
 
-	user "filestore/internal/apiserver/controller/user"
-	"filestore/internal/apiserver/store/mysql"
+	user "github.com/liquanhui01/filestore/internal/apiserver/controller/user"
+	"github.com/liquanhui01/filestore/internal/apiserver/store/mysql"
 )
 
-func initRouter() *gin.Engine {
+func InitRouter() *gin.Engine {
 	r := gin.New()
 
 	dbIns, _ := mysql.GetMySQLFactoryOr(nil)

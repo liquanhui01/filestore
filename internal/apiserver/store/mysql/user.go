@@ -2,10 +2,10 @@ package mysql
 
 import (
 	"context"
+	"fmt"
 
+	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
 	"gorm.io/gorm"
-
-	rp "filestore/internal/apiserver/store/repo"
 )
 
 type users struct {
@@ -18,7 +18,11 @@ func newUsers(ds *datastore) *users {
 
 // Create creates new user, return id and nil if err is nil.
 func (u *users) Create(ctx context.Context, user *rp.User) (uint, error) {
-	return user.ID, u.db.WithContext(ctx).Create(&user).Error
+	err := u.db.WithContext(ctx).Create(&user).Error
+	if err != nil {
+		fmt.Printf("错误：%s\n", err.Error())
+	}
+	return user.ID, err
 }
 
 // Update updates user

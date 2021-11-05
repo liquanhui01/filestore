@@ -7,7 +7,7 @@ package store
 import (
 	"context"
 
-	rp "filestore/internal/apiserver/store/repo"
+	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
 )
 
 type UserStore interface {

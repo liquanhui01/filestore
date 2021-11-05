@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 
-	"filestore/pkg/db"
+	"github.com/liquanhui01/filestore/pkg/db"
 )
 
 // MySQLOptions defines options for mysql database.
