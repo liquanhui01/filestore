@@ -38,7 +38,7 @@ func NewLogger(opts *LoggerOptions) *LoggerOptions {
 }
 
 // initConfig configs logrus.
-func (l *LoggerOptions) config() *logrus.Logger {
+func (l *LoggerOptions) Config() *logrus.Logger {
 	fileName := path.Join(l.path, l.filename)
 
 	// Write in file
