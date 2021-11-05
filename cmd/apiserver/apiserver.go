@@ -11,8 +11,8 @@ import (
 	"runtime"
 	"time"
 
-	"filestore/internal/apiserver"
-	_ "filestore/internal/apiserver/config"
+	"github.com/liquanhui01/filestore/internal/apiserver"
+	_ "github.com/liquanhui01/filestore/internal/apiserver/config"
 )
 
 func main() {
