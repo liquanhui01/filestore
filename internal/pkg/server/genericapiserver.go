@@ -6,110 +6,131 @@ package server
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"net/http"
 	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/marmotedu/log"
+	"github.com/pkg/errors"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/sync/errgroup"
 
 	"github.com/liquanhui01/filestore/internal/pkg/middleware"
 )
 
+// GenericAPIServer contains state for a filestore api server.
+// type GenericAPIServer gin.Engin.
 type GenericAPIServer struct {
 	middlewares []string
 	mode        string
-
 	// InsecureServingInfo holds configuration of the insecure HTTP server.
 	InsecureServingInfo *InsecureServingInfo
+
+	// SecureServingInfo holds configutation of the TLS server.
+	SecureServingInfo *SecureServingInfo
 
 	ShutdownTimeout time.Duration
 
 	*gin.Engine
 	healthz bool
-	// enableMetrics   bool
-	// enableProfiling bool
 
-	insecureServer *http.Server
+	insecureServer, secureServer *http.Server
 }
 
-func initGenericAPIServer(s *GenericAPIServer) {
-	s.Setup()
-	s.InstallMiddlewares()
-}
+func initGenericAPIServer(c *GenericAPIServer) {
+	// TODO
+	c.Setup()
+	c.InstallMiddlewares()
+	c.InstallAPIs()
 
-// InstallAPIs
-func (s *GenericAPIServer) InstallAPIs() {
-	if s.healthz {
-		s.GET("/healthz", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{
-				"status": "ok",
-			})
-		})
-	}
-
-	s.GET("/version", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"status": "v1",
-		})
-	})
 }
 
 func (s *GenericAPIServer) Setup() {
 	gin.SetMode(s.mode)
-	gin.DebugPrintRouteFunc = func(httpMethod, absolutePath, handlerName string, nuHandlers int) {
-		log.Infof("%-6s %-s --> %s (%d handlers)", httpMethod, absolutePath, handlerName, nuHandlers)
-	}
 }
 
-// InstallMiddlewares install generic middleware.
 func (s *GenericAPIServer) InstallMiddlewares() {
-	// necessary middleware
+	// necessary middlewares
 	s.Use(middleware.RequestID())
 	s.Use(middleware.Context())
+	s.Use(middleware.Logger())
 
-	// install custom middleware
+	// install custom middlewares
 	for _, m := range s.middlewares {
-		mw, ok := middleware.Middlewares[m]
+		mv, ok := middleware.Middlewares[m]
 		if !ok {
-			log.Warnf("can not find middleware: %s\n", m)
-
 			continue
 		}
-
-		log.Infof("install middleware:%s\n", mw)
-		s.Use(mw)
+		s.Use(mv)
 	}
 }
 
-// Run
+// InstallAPIs install generic apis.
+func (s *GenericAPIServer) InstallAPIs() {
+	if s.healthz {
+		s.GET("/healthz", func(c *gin.Context) {
+			c.JSON(http.StatusOK, gin.H{
+				"msg":  "health ok",
+				"data": nil,
+			})
+		})
+	}
+}
+
+// Run spawns the http server. It only returns when the port cannot be listened on initially.
 func (s *GenericAPIServer) Run() error {
+	// For scalability, use custom HTTP configuration mode here
 	s.insecureServer = &http.Server{
-		Addr:    s.InsecureServingInfo.Address,
+		Addr:    s.insecureServer.Addr,
+		Handler: s,
+	}
+
+	// For scalability, use custom HTTP configuration mode here
+	s.secureServer = &http.Server{
+		Addr:    s.secureServer.Addr,
 		Handler: s,
 	}
 
 	var eg errgroup.Group
 
+	// Initializing the server in a goroutine so that
+	// it won't block thr graceful shutdown handling below.
 	eg.Go(func() error {
-		log.Infof("Start to listening the incoming requests on http address: %s", s.InsecureServingInfo.Address)
+		log.Infof("Start to listening the incoming requests on http address: %s\n", s.InsecureServingInfo.Address)
 
-		if err := s.insecureServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		if err := s.insecureServer.ListenAndServe(); err != nil && errors.Is(err, http.ErrServerClosed) {
 			log.Fatal(err.Error())
 			return err
 		}
 
 		log.Infof("Server on %s stopped", s.InsecureServingInfo.Address)
+
 		return nil
 	})
 
-	// Ping the server to make sure the router is working.
+	eg.Go(func() error {
+		key, cert := s.SecureServingInfo.CertKey.KeyFile, s.SecureServingInfo.CertKey.CertFile
+		if key == "" || cert == "" || s.SecureServingInfo.BindPort == 0 {
+			return nil
+		}
+
+		log.Infof("Start to listening the incoming requests on https address: %s", s.SecureServingInfo.BindAddress)
+
+		if err := s.secureServer.ListenAndServeTLS(cert, key); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			log.Fatalf(err.Error())
+
+			return err
+		}
+
+		log.Infof("Server on %s stopped", s.SecureServingInfo.BindAddress)
+
+		return nil
+	})
+
+	// Ping the server to make sure thr router is running.
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
 	if s.healthz {
 		if err := s.ping(ctx); err != nil {
 			return err
@@ -117,7 +138,7 @@ func (s *GenericAPIServer) Run() error {
 	}
 
 	if err := eg.Wait(); err != nil {
-		log.Fatal(err.Error())
+		log.Fatalf(err.Error())
 	}
 
 	return nil
@@ -131,9 +152,12 @@ func (s *GenericAPIServer) Close() {
 	if err := s.insecureServer.Shutdown(ctx); err != nil {
 		log.Warnf("Shutdown insecure server failed: %s", err.Error())
 	}
+
+	if err := s.secureServer.Shutdown(ctx); err != nil {
+		log.Warnf("Shutdown secure server failed: %s", err.Error())
+	}
 }
 
-// ping pings the http server to make sure the router is working.
 func (s *GenericAPIServer) ping(ctx context.Context) error {
 	url := fmt.Sprintf("http://%s/healthz", s.InsecureServingInfo.Address)
 	if strings.Contains(s.InsecureServingInfo.Address, "0.0.0.0") {
@@ -141,27 +165,28 @@ func (s *GenericAPIServer) ping(ctx context.Context) error {
 	}
 
 	for {
+		// Change NewRequest to NewRequestWithContext and pass context it.
 		req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 		if err != nil {
 			return err
 		}
 
-		// Ping the server by sending a GET request to "/healthz"
 		resp, err := http.DefaultClient.Do(req)
 		if err == nil && resp.StatusCode == http.StatusOK {
-			defer resp.Body.Close()
-
 			log.Info("The router has been deployed successfully.")
+
+			resp.Body.Close()
 
 			return nil
 		}
 
-		log.Info("Waiting for the router, entry in 1 second.")
+		// Sleep for a second to continue the next ping.
+		log.Infof("Waiting for the router, retry in 1 second.")
 		time.Sleep(1 * time.Second)
 
 		select {
 		case <-ctx.Done():
-			log.Fatal("can not ping http server within the specified time interval.")
+			log.Fatalf("can not ping http server within the specified time interval.")
 		default:
 		}
 	}
