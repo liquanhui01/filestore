@@ -10,31 +10,21 @@ import (
 	"github.com/gin-gonic/gin"
 
 	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
+	"github.com/liquanhui01/filestore/internal/pkg/core"
 )
 
 // Create add a new user to mysql.
 func (u *UserController) Create(c *gin.Context) {
 	var r rp.User
 	if err := c.ShouldBindJSON(&r); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"msg":  "序列化：服务器内部错误",
-			"data": err,
-		})
-		return
+		core.WriteResponse(c, err, http.StatusInternalServerError, "服务器内部错误", nil)
 	}
 
 	// Insert the user to mysql.
 	id, err := u.srv.Users().Create(c, &r)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"msg":  "数据库操作：服务器内部错误",
-			"data": err.Error(),
-		})
-		return
+		core.WriteResponse(c, err, http.StatusInternalServerError, "用户创建失败", nil)
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"msg":  "注册成功",
-		"data": id,
-	})
+	core.WriteResponse(c, nil, http.StatusCreated, "用户创建成功", id)
 }

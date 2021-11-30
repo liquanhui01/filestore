@@ -10,6 +10,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+
+	"github.com/liquanhui01/filestore/internal/pkg/core"
 )
 
 // Find get an user by id
@@ -19,15 +21,8 @@ func (u *UserController) Find(c *gin.Context) {
 	id, _ := strconv.ParseUint(c.Param("id"), 10, 64)
 	user, err := u.srv.Users().Find(c, uint(id))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"msg":  "服务器错误",
-			"data": nil,
-		})
-		return
+		core.WriteResponse(c, err, http.StatusInternalServerError, "未查询到当前用户", nil)
+	} else {
+		core.WriteResponse(c, nil, http.StatusOK, "查询成功", user)
 	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"msg":  "查询成功",
-		"data": user,
-	})
 }

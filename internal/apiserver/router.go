@@ -23,7 +23,9 @@ func InitRouter() *gin.Engine {
 			userController := user.NewUserController(dbIns)
 
 			userv1.POST("", userController.Create)
-			userv1.DELETE("", userController.Delete)
+			userv1.DELETE("/:id", userController.Delete)
+			userv1.GET("/:id", userController.Find)
+			userv1.PUT("/:id", userController.Update)
 		}
 	}
 
