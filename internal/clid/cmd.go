@@ -11,11 +11,11 @@ import (
 	"github.com/spf13/viper"
 
 	genericfileflag "github.com/liquanhui01/filestore/cmd"
-	"github.com/liquanhui01/filestore/internal/apiserver"
 	"github.com/liquanhui01/filestore/internal/apiserver/store/mysql"
 	srv "github.com/liquanhui01/filestore/internal/clid/server"
 	ver "github.com/liquanhui01/filestore/internal/clid/version"
 	"github.com/liquanhui01/filestore/internal/pkg/options"
+	"github.com/liquanhui01/filestore/internal/pkg/server"
 	genericapiserver "github.com/liquanhui01/filestore/internal/pkg/server"
 )
 
@@ -36,7 +36,7 @@ func NewDefaultCommand() *cobra.Command {
 		if err != nil {
 			log.Fatal("failed to initialize database")
 		}
-		apiserver.NewApp()
+		server.NewConfig().New()
 	})
 
 	return cmds
@@ -45,3 +45,12 @@ func NewDefaultCommand() *cobra.Command {
 func runHelp(cmd *cobra.Command, args []string) {
 	_ = cmd.Help()
 }
+
+// func NewGenericAPIServer() *server.GenericAPIServer {
+// 	return &server.GenericAPIServer{
+// 		Middlewares: []string{},
+// 		Mode:        viper.GetString("gin.mode"),
+// 		Engine:      gin.New(),
+// 		InsecureServing: &
+// 	}
+// }

@@ -56,9 +56,12 @@ type Config struct {
 
 func NewConfig() *Config {
 	return &Config{
-		Healthz:         true,
-		Mode:            gin.ReleaseMode,
-		Middlewares:     []string{},
+		Healthz:     true,
+		Mode:        viper.GetString("gin.mode"),
+		Middlewares: []string{"recovery", "secret", "requestid", "logger"},
+		InsecureServing: &InsecureServingInfo{
+			Address: viper.GetString("server.host"),
+		},
 		EnableProfiling: true,
 		EnableMetrics:   true,
 		Jwt: &JwtInfo{
@@ -70,18 +73,16 @@ func NewConfig() *Config {
 }
 
 // New returns a new instance of GenericAPIServer form the given config.
-func (c *Config) New() (*GenericAPIServer, error) {
+func (c *Config) New() {
 	s := &GenericAPIServer{
 		InsecureServingInfo: c.InsecureServing,
-		mode:                c.Mode,
-		healthz:             c.Healthz,
-		middlewares:         c.Middlewares,
+		Mode:                c.Mode,
+		Healthz:             c.Healthz,
+		Middlewares:         c.Middlewares,
 		Engine:              gin.New(),
 	}
 
-	initGenericAPIServer(s)
-
-	return s, nil
+	InitGenericAPIServer(s)
 }
 
 // LoadConfig reads in config file and ENV variables if set.

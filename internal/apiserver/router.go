@@ -26,6 +26,7 @@ func InitRouter() *gin.Engine {
 			userv1.DELETE("/:id", userController.Delete)
 			userv1.GET("/:id", userController.Find)
 			userv1.PUT("/:id", userController.Update)
+			userv1.PUT("/change-password/:id", userController.ChangePassword)
 		}
 	}
 

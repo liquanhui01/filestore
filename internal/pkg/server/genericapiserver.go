@@ -22,8 +22,8 @@ import (
 // GenericAPIServer contains state for a filestore api server.
 // type GenericAPIServer gin.Engin.
 type GenericAPIServer struct {
-	middlewares []string
-	mode        string
+	Middlewares []string
+	Mode        string
 	// InsecureServingInfo holds configuration of the insecure HTTP server.
 	InsecureServingInfo *InsecureServingInfo
 
@@ -33,12 +33,12 @@ type GenericAPIServer struct {
 	ShutdownTimeout time.Duration
 
 	*gin.Engine
-	healthz bool
+	Healthz bool
 
 	insecureServer, secureServer *http.Server
 }
 
-func initGenericAPIServer(c *GenericAPIServer) {
+func InitGenericAPIServer(c *GenericAPIServer) {
 	c.Setup()
 	c.InstallMiddlewares()
 	c.InstallAPIs()
@@ -46,7 +46,7 @@ func initGenericAPIServer(c *GenericAPIServer) {
 }
 
 func (s *GenericAPIServer) Setup() {
-	gin.SetMode(s.mode)
+	gin.SetMode(s.Mode)
 }
 
 // InstallMiddlewares install all middlewares.
@@ -57,7 +57,7 @@ func (s *GenericAPIServer) InstallMiddlewares() {
 	s.Use(middleware.Logger())
 
 	// install custom middlewares
-	for _, m := range s.middlewares {
+	for _, m := range s.Middlewares {
 		mv, ok := middleware.Middlewares[m]
 		if !ok {
 			continue
@@ -68,7 +68,7 @@ func (s *GenericAPIServer) InstallMiddlewares() {
 
 // InstallAPIs install generic apis.
 func (s *GenericAPIServer) InstallAPIs() {
-	if s.healthz {
+	if s.Healthz {
 		s.GET("/healthz", func(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{
 				"msg":  "health ok",
@@ -131,7 +131,7 @@ func (s *GenericAPIServer) Run() error {
 	// Ping the server to make sure thr router is running.
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	if s.healthz {
+	if s.Healthz {
 		if err := s.ping(ctx); err != nil {
 			return err
 		}
