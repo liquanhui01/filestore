@@ -39,7 +39,6 @@ type GenericAPIServer struct {
 }
 
 func initGenericAPIServer(c *GenericAPIServer) {
-	// TODO
 	c.Setup()
 	c.InstallMiddlewares()
 	c.InstallAPIs()
@@ -50,6 +49,7 @@ func (s *GenericAPIServer) Setup() {
 	gin.SetMode(s.mode)
 }
 
+// InstallMiddlewares install all middlewares.
 func (s *GenericAPIServer) InstallMiddlewares() {
 	// necessary middlewares
 	s.Use(middleware.RequestID())
@@ -100,7 +100,7 @@ func (s *GenericAPIServer) Run() error {
 		log.Infof("Start to listening the incoming requests on http address: %s\n", s.InsecureServingInfo.Address)
 
 		if err := s.insecureServer.ListenAndServe(); err != nil && errors.Is(err, http.ErrServerClosed) {
-			log.Fatal(err.Error())
+			log.Fatalf("Failed to listening the insecure server, err is %s\n", err.Error())
 			return err
 		}
 
@@ -118,7 +118,7 @@ func (s *GenericAPIServer) Run() error {
 		log.Infof("Start to listening the incoming requests on https address: %s", s.SecureServingInfo.BindAddress)
 
 		if err := s.secureServer.ListenAndServeTLS(cert, key); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			log.Fatalf(err.Error())
+			log.Fatalf("Failed to listening the secure server, err is %s\n", err.Error())
 
 			return err
 		}

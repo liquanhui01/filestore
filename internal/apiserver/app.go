@@ -17,6 +17,7 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
+// NewApp defines a server app
 func NewApp() {
 
 	gin.SetMode(viper.GetString("gin.mode"))
@@ -30,10 +31,8 @@ func NewApp() {
 
 	var eg errgroup.Group
 	eg.Go(func() error {
-		// log.Info("Starting to listening the incoming requests on http address: %s", addr)
-
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("failed to run serve")
+			log.Fatalf("failed to run server")
 			return err
 		}
 

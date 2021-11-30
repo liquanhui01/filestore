@@ -31,7 +31,6 @@ func newUsers(srv *service) *userService {
 }
 
 func (u *userService) Create(ctx context.Context, user *rp.User) (uint, error) {
-	fmt.Printf("Phone is:%s\n", user.Phone)
 	id, err := u.store.Users().Create(ctx, user)
 	if err != nil {
 		fmt.Printf("err is:%s\n", err.Error())

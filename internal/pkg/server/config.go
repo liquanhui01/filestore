@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/marmotedu/log"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -89,17 +89,17 @@ func LoadConfig(cfg string, defaultName string) {
 	if cfg != "" {
 		viper.SetConfigFile(cfg)
 	} else {
-		viper.AddConfigPath("$HOME/workspace/filestore/config")
+		viper.AddConfigPath("$HOME/filestore/config")
 		viper.AddConfigPath(".")
-		viper.SetConfigName("filestore")
+		viper.AddConfigPath("$HOME/workspace/filestore/config")
+		viper.SetConfigName(defaultName)
 	}
 
-	// Use config file from the flag.
 	viper.SetConfigType("yaml")
 	viper.AutomaticEnv()
 
-	// If a config file is found, read it in.
+	// Load config file
 	if err := viper.ReadInConfig(); err != nil {
-		log.Warnf("WARNING: viper failed to discover and load the configuration file: %s", err.Error())
+		log.Fatalf("Failed to discover and load configuration file, err is %s\n", err.Error())
 	}
 }

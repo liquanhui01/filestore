@@ -28,13 +28,6 @@ type MySQLOptions struct {
 // NewMySQLOptions create a `zero` value instance.
 func NewMySQLOptions() *MySQLOptions {
 	return &MySQLOptions{
-		// Host:                  "127.0.0.1:3306",
-		// Username:              "",
-		// Password:              "",
-		// Database:              "",
-		// MaxIdleConnections:    100,
-		// MaxOpenConnections:    100,
-		// MaxConnectionLifeTime: time.Duration(10) * time.Second,
 		Host:                  viper.GetString("mysql.host"),
 		Username:              viper.GetString("mysql.username"),
 		Password:              viper.GetString("mysql.password"),

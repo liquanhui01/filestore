@@ -8,9 +8,10 @@ import (
 	"log"
 	"sync"
 
-	"github.com/liquanhui01/filestore/internal/apiserver/options"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
+
+	"github.com/liquanhui01/filestore/internal/apiserver/options"
 )
 
 var (
@@ -42,6 +43,7 @@ func init() {
 		} else {
 			viper.AddConfigPath(".")
 			viper.AddConfigPath("$HOME/workspace/filestore/config")
+			viper.AddConfigPath("$HOME/filestore/config")
 			viper.SetConfigName("filestore")
 		}
 		viper.SetConfigType("yaml")

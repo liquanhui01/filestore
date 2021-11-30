@@ -49,6 +49,8 @@ func GetMySQLFactoryOr(opts *genericoptions.MySQLOptions) (store.Factory, error)
 			MaxConnectionLifeTime: opts.MaxConnectionLifeTime,
 		}
 
+		fmt.Println("mysql options is: ", options)
+
 		dbIns, err = db.New(options)
 
 		fmt.Println("开始执行迁移")

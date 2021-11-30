@@ -1,7 +1,7 @@
 name: golangci-lint
 on:
   push:
-    branchs:
+    branches:
       - "*"
   pull_request:
     types: [opened, reopened]
