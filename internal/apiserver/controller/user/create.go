@@ -5,7 +5,6 @@
 package user
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -15,10 +14,7 @@ import (
 
 // Create add a new user to mysql.
 func (u *UserController) Create(c *gin.Context) {
-	fmt.Println("user create function called.")
-
 	var r rp.User
-
 	if err := c.ShouldBindJSON(&r); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"msg":  "序列化：服务器内部错误",
@@ -26,8 +22,6 @@ func (u *UserController) Create(c *gin.Context) {
 		})
 		return
 	}
-
-	fmt.Println("r is: ", r)
 
 	// Insert the user to mysql.
 	id, err := u.srv.Users().Create(c, &r)

@@ -23,6 +23,7 @@ func InitRouter() *gin.Engine {
 			userController := user.NewUserController(dbIns)
 
 			userv1.POST("", userController.Create)
+			userv1.DELETE("", userController.Delete)
 		}
 	}
 
