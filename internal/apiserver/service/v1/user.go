@@ -16,6 +16,7 @@ import (
 type UserSrv interface {
 	Create(ctx context.Context, user *rp.User) (uint, error)
 	Update(ctx context.Context, user *rp.User) error
+	ChangePassword(ctx context.Context, id uint, password string) error
 	Delete(ctx context.Context, id uint) error
 	Find(ctx context.Context, id uint) (*rp.User, error)
 }
@@ -46,6 +47,10 @@ func (u *userService) Delete(ctx context.Context, id uint) error {
 
 func (u *userService) Update(ctx context.Context, user *rp.User) error {
 	return u.store.Users().Update(ctx, user)
+}
+
+func (u *userService) ChangePassword(ctx context.Context, id uint, password string) error {
+	return u.store.Users().ChangePassword(ctx, id, password)
 }
 
 func (u *userService) Find(ctx context.Context, id uint) (user *rp.User, err error) {

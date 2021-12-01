@@ -13,6 +13,7 @@ import (
 type UserStore interface {
 	Create(ctx context.Context, user *rp.User) (uint, error)
 	Update(ctx context.Context, user *rp.User) error
+	ChangePassword(ctx context.Context, id uint, password string) error
 	Delete(ctx context.Context, id uint) error
 	Find(ctx context.Context, id uint) (*rp.User, error)
 }

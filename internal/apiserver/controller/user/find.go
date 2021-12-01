@@ -22,7 +22,8 @@ func (u *UserController) Find(c *gin.Context) {
 	user, err := u.srv.Users().Find(c, uint(id))
 	if err != nil {
 		core.WriteResponse(c, err, http.StatusInternalServerError, "未查询到当前用户", nil)
-	} else {
-		core.WriteResponse(c, nil, http.StatusOK, "查询成功", user)
+		return
 	}
+
+	core.WriteResponse(c, nil, http.StatusOK, "查询成功", user)
 }

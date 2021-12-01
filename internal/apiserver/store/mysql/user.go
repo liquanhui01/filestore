@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
 	"gorm.io/gorm"
+
+	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
 )
 
 type users struct {
@@ -22,12 +23,18 @@ func (u *users) Create(ctx context.Context, user *rp.User) (uint, error) {
 	if err != nil {
 		fmt.Printf("错误：%s\n", err.Error())
 	}
+
 	return user.ID, err
 }
 
 // Update updates user
 func (u *users) Update(ctx context.Context, user *rp.User) error {
-	return u.db.WithContext(ctx).Save(user).Error
+	return u.db.WithContext(ctx).Model(&rp.User{}).Where("id = ?", user.ID).Select("*").Omit("Password").Save(&user).Error
+}
+
+// Update user's password
+func (u *users) ChangePassword(ctx context.Context, id uint, password string) error {
+	return u.db.WithContext(ctx).Model(&rp.User{}).Where("id = ?", id).Update("password", password).Error
 }
 
 // Delete deletes user by id

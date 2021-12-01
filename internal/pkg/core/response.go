@@ -26,12 +26,11 @@ func WriteResponse(c *gin.Context, err error, code int, msg string, data interfa
 			Message: msg,
 			Err:     err,
 		})
-		return
+	} else {
+		c.JSON(http.StatusOK, Response{
+			Code:    0,
+			Message: msg,
+			Data:    data,
+		})
 	}
-
-	c.JSON(http.StatusOK, Response{
-		Code:    0,
-		Message: msg,
-		Data:    data,
-	})
 }

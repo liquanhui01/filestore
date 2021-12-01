@@ -22,16 +22,19 @@ func (u *UserController) Update(c *gin.Context) {
 	var r *rp.User
 	if err := c.ShouldBindJSON(&r); err != nil {
 		core.WriteResponse(c, err, http.StatusInternalServerError, "服务器内部错误", nil)
+		return
 	}
 
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		core.WriteResponse(c, err, http.StatusBadRequest, "服务器内部错误", nil)
+		return
 	}
 
 	user, err := u.srv.Users().Find(c, uint(id))
 	if err != nil {
-		core.WriteResponse(c, err, http.StatusBadRequest, "服务器内部错误", nil)
+		core.WriteResponse(c, err, http.StatusBadRequest, "该用户不存在", nil)
+		return
 	}
 
 	user.Username = r.Username
@@ -44,6 +47,7 @@ func (u *UserController) Update(c *gin.Context) {
 	err = u.srv.Users().Update(c, user)
 	if err != nil {
 		core.WriteResponse(c, err, http.StatusBadRequest, "更新失败", nil)
+		return
 	}
 
 	core.WriteResponse(c, nil, http.StatusOK, "更新成功", nil)

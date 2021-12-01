@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/pkg/errors"
 	"gorm.io/gorm"
 
 	"github.com/liquanhui01/filestore/internal/apiserver/store"
-	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
 	genericoptions "github.com/liquanhui01/filestore/internal/pkg/options"
 	"github.com/liquanhui01/filestore/pkg/db"
 )
@@ -53,8 +51,8 @@ func GetMySQLFactoryOr(opts *genericoptions.MySQLOptions) (store.Factory, error)
 
 		dbIns, err = db.New(options)
 
-		fmt.Println("开始执行迁移")
-		err = migrateDatabase(dbIns)
+		// fmt.Println("开始执行迁移")
+		// err = migrateDatabase(dbIns)
 
 		mysqlFactory = &datastore{dbIns}
 	})
@@ -66,11 +64,11 @@ func GetMySQLFactoryOr(opts *genericoptions.MySQLOptions) (store.Factory, error)
 	return mysqlFactory, nil
 }
 
-// migrateDatabase
-func migrateDatabase(db *gorm.DB) error {
-	if err := db.AutoMigrate(&rp.User{}); err != nil {
-		return errors.Wrap(err, "migrate user model failed.")
-	}
+// // migrateDatabase
+// func migrateDatabase(db *gorm.DB) error {
+// 	if err := db.AutoMigrate(&rp.User{}); err != nil {
+// 		return errors.Wrap(err, "migrate user model failed.")
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
