@@ -17,6 +17,7 @@ import (
 // Find get an user by id
 func (u *UserController) Find(c *gin.Context) {
 	fmt.Println("find user function called.")
+	mp := make(map[string]interface{})
 
 	id, _ := strconv.ParseUint(c.Param("id"), 10, 64)
 	user, err := u.srv.Users().Find(c, uint(id))
@@ -24,6 +25,7 @@ func (u *UserController) Find(c *gin.Context) {
 		core.WriteResponse(c, err, http.StatusInternalServerError, "未查询到当前用户", nil)
 		return
 	}
+	mp["user"] = user
 
-	core.WriteResponse(c, nil, http.StatusOK, "查询成功", user)
+	core.WriteResponse(c, nil, http.StatusOK, "查询成功", mp)
 }

@@ -16,6 +16,7 @@ import (
 // Create add a new user to mysql.
 func (u *UserController) Create(c *gin.Context) {
 	var r rp.User
+	mp := make(map[string]interface{})
 	if err := c.ShouldBindJSON(&r); err != nil {
 		core.WriteResponse(c, err, http.StatusInternalServerError, "服务器内部错误", nil)
 		return
@@ -34,6 +35,7 @@ func (u *UserController) Create(c *gin.Context) {
 		core.WriteResponse(c, err, http.StatusInternalServerError, "用户创建失败", nil)
 		return
 	}
+	mp["id"] = id
 
-	core.WriteResponse(c, nil, http.StatusCreated, "用户创建成功", id)
+	core.WriteResponse(c, nil, http.StatusCreated, "用户创建成功", mp)
 }

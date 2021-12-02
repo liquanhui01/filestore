@@ -12,13 +12,14 @@ import (
 )
 
 type Response struct {
-	Code    int         `json:"code"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data"`
-	Err     error       `json:"err"`
+	Code    int                    `json:"code"`
+	Message string                 `json:"message"`
+	Data    map[string]interface{} `json:"data"`
+	Err     error                  `json:"err"`
 }
 
-func WriteResponse(c *gin.Context, err error, code int, msg string, data interface{}) {
+func WriteResponse(c *gin.Context, err error, code int, msg string, data map[string]interface{}) {
+	fmt.Println(err)
 	if err != nil {
 		fmt.Println("err is: ", err.Error())
 		c.JSON(http.StatusBadRequest, Response{
