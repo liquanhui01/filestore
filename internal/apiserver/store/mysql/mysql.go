@@ -27,6 +27,10 @@ func (ds *datastore) Folders() store.FolderStore {
 	return newFolders(ds)
 }
 
+func (ds *datastore) Files() store.FileStore {
+	return newFile(ds)
+}
+
 var (
 	mysqlFactory store.Factory
 	once         sync.Once

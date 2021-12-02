@@ -7,6 +7,7 @@ package apiserver
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/liquanhui01/filestore/internal/apiserver/controller/file"
 	"github.com/liquanhui01/filestore/internal/apiserver/controller/folder"
 	user "github.com/liquanhui01/filestore/internal/apiserver/controller/user"
 	"github.com/liquanhui01/filestore/internal/apiserver/store/mysql"
@@ -30,7 +31,6 @@ func InitRouter() *gin.Engine {
 		{
 			userController := user.NewUserController(dbIns)
 
-			// userv1.POST("/login", userController.Login)
 			userv1.POST("", userController.Create)
 			userv1.DELETE("/:id", userController.Delete)
 			userv1.GET("/:id", userController.Find)
@@ -48,6 +48,19 @@ func InitRouter() *gin.Engine {
 			folderv1.GET("/:userid", folderController.FindByUserID)
 			folderv1.PUT("", folderController.Update)
 			folderv1.DELETE("", folderController.Delete)
+		}
+
+		// file restful resource
+		filev1 := apiv1.Group("/file")
+		{
+			fileController := file.NewFileController(dbIns)
+
+			filev1.POST("", fileController.Create)
+			filev1.GET("/:filesha1", fileController.Find)
+			filev1.GET("", fileController.FindFilesByUserAndFolder)
+			filev1.PUT("/folder", fileController.MoveFileToFolder)
+			filev1.PUT("", fileController.Update)
+			filev1.DELETE("/:filesha1", fileController.Delete)
 		}
 	}
 

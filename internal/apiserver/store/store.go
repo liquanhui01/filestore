@@ -12,6 +12,7 @@ var client Factory
 type Factory interface {
 	Users() UserStore
 	Folders() FolderStore
+	Files() FileStore
 }
 
 // Client return the store client instance.

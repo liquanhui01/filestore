@@ -11,6 +11,7 @@ import (
 type Service interface {
 	Users() UserSrv
 	Folders() FolderSrv
+	Files() FileSrv
 }
 
 type service struct {
@@ -30,4 +31,8 @@ func (s *service) Users() UserSrv {
 
 func (s *service) Folders() FolderSrv {
 	return newFolders(s)
+}
+
+func (s *service) Files() FileSrv {
+	return newFiles(s)
 }
