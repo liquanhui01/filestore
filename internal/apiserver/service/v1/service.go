@@ -10,6 +10,7 @@ import (
 
 type Service interface {
 	Users() UserSrv
+	Folders() FolderSrv
 }
 
 type service struct {
@@ -25,4 +26,8 @@ func NewService(store store.Factory) Service {
 
 func (s *service) Users() UserSrv {
 	return newUsers(s)
+}
+
+func (s *service) Folders() FolderSrv {
+	return newFolders(s)
 }

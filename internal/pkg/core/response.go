@@ -19,7 +19,6 @@ type Response struct {
 }
 
 func WriteResponse(c *gin.Context, err error, code int, msg string, data map[string]interface{}) {
-	fmt.Println(err)
 	if err != nil {
 		fmt.Println("err is: ", err.Error())
 		c.JSON(http.StatusBadRequest, Response{

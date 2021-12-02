@@ -23,6 +23,10 @@ func (ds *datastore) Users() store.UserStore {
 	return newUsers(ds)
 }
 
+func (ds *datastore) Folders() store.FolderStore {
+	return newFolders(ds)
+}
+
 var (
 	mysqlFactory store.Factory
 	once         sync.Once
