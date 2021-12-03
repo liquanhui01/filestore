@@ -29,3 +29,17 @@ Gin:
 # Server configuration
 Server:
   Host: 127.0.0.1:8080
+
+# JWT config
+JWT:
+  Salt: 132409485odsiuro02089dsfhdasjfhdsaodasfoiquw0240184032orewquirwqenskdjfi432
+  ExpiredTime: 2
+  Issuer: filestore
+  Subject: user token
+  realm: filestore realm
+  Timeout: 24
+  MaxRefresh: 24
+
+# File config
+File:
+  Location: /Users/apple/workspace/filestore/files/

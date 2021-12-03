@@ -25,7 +25,7 @@ func newFile(ds *datastore) *file {
 func (f *file) Create(ctx context.Context, file *rp.File) (uint, error) {
 	err := f.db.WithContext(ctx).Create(&file).Error
 	if err != nil {
-		fmt.Printf("错误： %s\n", err.Error())
+		fmt.Printf("err is： %s\n", err.Error())
 	}
 
 	return file.ID, err
@@ -33,7 +33,7 @@ func (f *file) Create(ctx context.Context, file *rp.File) (uint, error) {
 
 // Update update file.
 func (f *file) Update(ctx context.Context, file *rp.File) error {
-	return f.db.WithContext(ctx).Model(&file).Where("id = ?", file.ID).Select("*").Omit("folderid").Save(&file).Error
+	return f.db.WithContext(ctx).Model(&file).Where("filesha1 = ?", file.Filesha1).Select("*").Omit("folderid").Save(&file).Error
 }
 
 // MoveFileToFolder

@@ -45,12 +45,3 @@ func NewDefaultCommand() *cobra.Command {
 func runHelp(cmd *cobra.Command, args []string) {
 	_ = cmd.Help()
 }
-
-// func NewGenericAPIServer() *server.GenericAPIServer {
-// 	return &server.GenericAPIServer{
-// 		Middlewares: []string{},
-// 		Mode:        viper.GetString("gin.mode"),
-// 		Engine:      gin.New(),
-// 		InsecureServing: &
-// 	}
-// }

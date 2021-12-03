@@ -55,7 +55,7 @@ func InitRouter() *gin.Engine {
 		{
 			fileController := file.NewFileController(dbIns)
 
-			filev1.POST("", fileController.Create)
+			filev1.POST("/:userid/:folderid", fileController.Upload)
 			filev1.GET("/:filesha1", fileController.Find)
 			filev1.GET("", fileController.FindFilesByUserAndFolder)
 			filev1.PUT("/folder", fileController.MoveFileToFolder)

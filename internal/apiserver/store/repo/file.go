@@ -4,9 +4,9 @@ import "time"
 
 type File struct {
 	ID        uint      `gorm:"primaryKey;autoIncrement;" json:"id"`
-	Filename  string    `gorm:"unique;not null;" json:"filename"`
+	Filename  string    `gorm:"not null;" json:"filename"`
 	Filesha1  string    `gorm:"unique;not null;uniqueIndex:folder_user;" json:"filesha1"`
-	Filesize  int       `gorm:"not null;" json:"filesize"`
+	Filesize  string    `gorm:"not null;" json:"filesize"`
 	Location  string    `gorm:"unique;not null;" json:"location"`
 	Folderid  uint      `gorm:"not null;uniqueIndex:folder_user;" json:"folderid"`
 	Folder    Folder    `gorm:"foreignKey:Folderid"`
