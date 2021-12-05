@@ -46,3 +46,8 @@ func (u *users) Delete(ctx context.Context, id uint) error {
 func (u *users) Find(ctx context.Context, id uint) (user *rp.User, err error) {
 	return user, u.db.WithContext(ctx).First(&user, id).Error
 }
+
+// FindUserByName find user by username
+func (u *users) FindUserByName(ctx context.Context, username string) (user *rp.User, err error) {
+	return user, u.db.WithContext(ctx).Where("username = ?", username).First(&user).Error
+}

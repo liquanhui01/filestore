@@ -12,11 +12,18 @@ import (
 )
 
 type Response struct {
+	// sync.RWMutex
 	Code    int                    `json:"code"`
 	Message string                 `json:"message"`
 	Data    map[string]interface{} `json:"data"`
 	Err     error                  `json:"err"`
 }
+
+// func NewResponse() *Response {
+// 	return &Response{
+// 		Data: make(map[string]interface{}),
+// 	}
+// }
 
 func WriteResponse(c *gin.Context, err error, code int, msg string, data map[string]interface{}) {
 	if err != nil {

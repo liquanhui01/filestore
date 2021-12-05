@@ -5,13 +5,13 @@
 package file
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
 	rp "github.com/liquanhui01/filestore/internal/apiserver/store/repo"
 	"github.com/liquanhui01/filestore/internal/pkg/core"
+	"github.com/liquanhui01/filestore/pkg/util"
 )
 
 func (f *FileController) Update(c *gin.Context) {
@@ -28,13 +28,13 @@ func (f *FileController) Update(c *gin.Context) {
 		return
 	}
 
+	r.Filename = util.Filename(file.Filename, r.Filename)
 	r.Folderid = file.Folderid
 	r.Userid = file.Userid
 	r.CreatedAt = file.CreatedAt
-	r.Filesha1 = "ewr89r73297r382uiewuyrwruiwryu32"
-	r.Filesize = 2382432
-	r.Location = "/Users/apple/file" + r.Filesha1
-	fmt.Println("更新后的数据：", r)
+	r.Filesha1 = file.Filesha1
+	r.Filesize = file.Filesize
+	r.Location = file.Location
 
 	if err := f.srv.Files().Update(c, &r); err != nil {
 		core.WriteResponse(c, err, http.StatusBadRequest, "更新失败", nil)

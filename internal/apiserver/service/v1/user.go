@@ -19,6 +19,7 @@ type UserSrv interface {
 	ChangePassword(ctx context.Context, id uint, password string) error
 	Delete(ctx context.Context, id uint) error
 	Find(ctx context.Context, id uint) (*rp.User, error)
+	FindUserByName(ctx context.Context, username string) (*rp.User, error)
 }
 
 type userService struct {
@@ -59,4 +60,8 @@ func (u *userService) Find(ctx context.Context, id uint) (user *rp.User, err err
 		return nil, err
 	}
 	return user, nil
+}
+
+func (u *userService) FindUserByName(ctx context.Context, username string) (user *rp.User, err error) {
+	return u.store.Users().FindUserByName(ctx, username)
 }

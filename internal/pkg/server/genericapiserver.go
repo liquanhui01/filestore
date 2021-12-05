@@ -51,10 +51,12 @@ func (s *GenericAPIServer) Setup() {
 
 // InstallMiddlewares install all middlewares.
 func (s *GenericAPIServer) InstallMiddlewares() {
+	fmt.Println("进入中间件")
 	// necessary middlewares
 	s.Use(middleware.RequestID())
 	s.Use(middleware.Context())
 	s.Use(middleware.Logger())
+	// s.Use(middleware.JWTAuthMiddleware())
 
 	// install custom middlewares
 	for _, m := range s.Middlewares {

@@ -22,6 +22,11 @@ func (f *FileController) Upload(c *gin.Context) {
 	userid, _ := strconv.ParseUint(c.Param("userid"), 10, 64)
 	folderid, _ := strconv.ParseUint(c.Param("folderid"), 10, 64)
 
+	if err := c.Request.ParseMultipartForm(4 << 20); err != nil {
+		core.WriteResponse(c, err, http.StatusBadRequest, "上传大小超过限制", nil)
+		return
+	}
+
 	file, head, err := c.Request.FormFile("file")
 	if err != nil {
 		core.WriteResponse(c, err, http.StatusBadRequest, "上传失败", nil)

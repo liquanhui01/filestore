@@ -27,5 +27,6 @@ func defaultMiddlewares() map[string]gin.HandlerFunc {
 		"secret":    Secure,
 		"requestid": RequestID(),
 		"logger":    Logger(),
+		// "auth":      JWTAuthMiddleware(),
 	}
 }

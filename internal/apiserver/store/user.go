@@ -16,4 +16,5 @@ type UserStore interface {
 	ChangePassword(ctx context.Context, id uint, password string) error
 	Delete(ctx context.Context, id uint) error
 	Find(ctx context.Context, id uint) (*rp.User, error)
+	FindUserByName(ctx context.Context, username string) (*rp.User, error)
 }

@@ -58,7 +58,7 @@ func NewConfig() *Config {
 	return &Config{
 		Healthz:     true,
 		Mode:        viper.GetString("gin.mode"),
-		Middlewares: []string{"recovery", "secret", "requestid", "logger"},
+		Middlewares: []string{"recovery", "secret", "requestid", "logger", "auth"},
 		InsecureServing: &InsecureServingInfo{
 			Address: viper.GetString("server.host"),
 		},
