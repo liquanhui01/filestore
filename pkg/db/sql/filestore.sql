@@ -39,9 +39,9 @@ CREATE TABLE `folder` (
 DROP TABLE IF EXISTS `file`;
 CREATE TABLE `file` (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT "文件id",
-    `filename` VARCHAR(255) NOT NULL UNIQUE COMMENT "文件名",
+    `filename` VARCHAR(255) NOT NULL COMMENT "文件名",
     `filesha1` VARCHAR(255) NOT NULL COMMENT "文件sha1",
-    `filesize` INT NOT NULL COMMENT "文件大小",
+    `filesize` VARCHAR(50) NOT NULL COMMENT "文件大小",
     `location` VARCHAR(255) NOT NULL COMMENT "文件存储位置",
     `folderid` INT NOT NULL COMMENT "所属文件夹",
     `userid` INT NOT NULL COMMENT "所属用户",
@@ -49,5 +49,5 @@ CREATE TABLE `file` (
     `updated_at` DATETIME COMMENT '更新时间',
     FOREIGN KEY(`folderid`) REFERENCES folder(`id`),
     FOREIGN KEY(`userid`) REFERENCES user(`id`),
-    UNIQUE INDEX(`folderid`, `userid`, `filesha1`)
+    UNIQUE INDEX `user_folder_file` (`userid`, `folderid`, `filesha1`)
 ) ENGINE=InnoDB CHARSET=utf8mb4;
