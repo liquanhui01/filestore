@@ -15,7 +15,7 @@ import (
 )
 
 func InitRouter() *gin.Engine {
-	r := gin.New()
+	r := gin.Default()
 
 	// r.Use(middleware.JWTAuthMiddleware())
 	jwtMiddleware := auth.NewAuth()
@@ -56,6 +56,7 @@ func InitRouter() *gin.Engine {
 			fileController := file.NewFileController(dbIns)
 
 			filev1.POST("/:userid/:folderid", fileController.Upload)
+			filev1.POST("/fastupload", fileController.FastUpload)
 			filev1.GET("/:filesha1", fileController.Find)
 			filev1.GET("", fileController.FindFilesByUserAndFolder)
 			filev1.PUT("/folder", fileController.MoveFileToFolder)
